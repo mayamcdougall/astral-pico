@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+  Astral by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+  Ported to PicoCMS by Simon McDougall (https://github.com/smcdougall/)
+-->
+<html>
+
+  <head>
+
+    <title>{{ site_title }}</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="description" content="{{ pages.index.meta.description }}">
+    {% if pages.index.meta.robots %}<meta name="robots" content="{{ pages.index.meta.robots }}">{% endif %}
+    <!--[if lte IE 8]><script src="{{ theme_url }}/assets/js/ie/html5shiv.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="{{ theme_url }}/assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="{{ theme_url }}/assets/css/noscript.css" /></noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="{{ theme_url }}/assets/css/ie8.css" /><![endif]-->
+
+    {# User CSS & Fonts #}
+    {% if pages.index.meta.css %}
+        <link rel="stylesheet" href="{{ base_url }}/{{ pages.index.meta.css }}" type="text/css">
+    {% endif %}
+    {% if pages.index.meta.fonts %}
+        {% for url in pages.index.meta.fonts %}
+            <link href='{{ url }}' rel='stylesheet' type='text/css'>
+        {% endfor %}
+    {% endif %}
+
+    {# Open Graph #}
+    <meta property="og:title" content="{{ site_title }}">
+    <meta property="og:description" content="{{ pages.index.meta.description }}">
+    <meta property="og:url" content="{{ base_url }}">
+    <meta property="og:type" content="website">
+    {% if pages.index.meta.og_image %}<meta property="og:image" content="{{ base_url }}/{{ pages.index.meta.og_image }}">{% endif %}
+
+  </head>
+
+  <body>
+
+    {# Show YAML Errors #}
+    {% for page in pages if page.meta.YAML_ParseError %}
+        <p style="
+            color: white;
+            text-align: center;
+            background-color: darkred;
+            margin-bottom: -25px;
+            text-transform: none;
+        ">Header Error in <a href="{{ page.url }}">{{ page.id }}</a>, {{ page.meta.YAML_ParseError }}</p>
+    {% endfor %}
+
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+      <!-- Nav -->
+      <nav id="nav">
+        <a href="#me" class="icon fa-{{ pages.index.meta.home.icon }} active"><span>{{ pages.index.meta.home.text }}</span></a>
+        {% for page in pages if page.id not in ['index'] %}
+            <a href="{% if page.meta.link %}{{ page.meta.link }}{% else %}#{{ page.id }}{% endif %}" class="icon fa-{{ page.meta.icon }}"><span>{{ page.title }}</span></a>
+        {% endfor %}
+      </nav>
+
+      <!-- Main -->
+      <div id="main">
+
+        <!-- Me -->
+        <article id="me" class="panel">
+          <header>
+            <h1>{{ site_title }}</h1>
+            <p>{{ pages.index.meta.description }}</p>
+            {% set next_id = '' %}{% for page in pages if page.id not in ['index'] and not break %}{% set next_id = page.id %}{% set break = true %}{% endfor %}
+          </header>
+          <a href="#{{ next_id }}" class="jumplink pic">
+            <span class="arrow icon fa-chevron-right"><span>{{ pages.index.meta.reader_arrow }}</span></span>
+            <img src="{{ pages.index.meta.profile }}" alt="" />
+          </a>
+        </article>
+
+        <!-- Pages -->
+        {% for page in pages if page.id not in ['index'] and not page.meta.link %}
+          <article id="{{ page.id }}" class="panel">
+            <header>
+              <h2>{{ page.title }}</h2>
+            </header>
+            {{ page.id | content }}
+
+            <!-- Gallery -->
+            {% if page.meta.gallery %}
+              <section>
+                <div class="row">
+                  {% for item in page.meta.gallery %}
+                  <div class="4u{% if loop.index is divisibleby(3) %}${% endif %} 12u$(mobile)">
+                    <a href="{{ item.url }}" class="image fit"><img src="{{ item.image }}" alt=""></a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </section>
+            {% endif %}
+
+            <!-- Contact -->
+            {% if page.meta.contact %}
+              <form action="{{ page.meta.contact }}" method="post">
+                <div>
+                  <div class="row">
+                    <div class="6u 12u$(mobile)">
+                      <input type="text" name="name" placeholder="Name" />
+                    </div>
+                    <div class="6u$ 12u$(mobile)">
+                      <input type="text" name="email" placeholder="Email" />
+                    </div>
+                    <div class="12u$">
+                      <input type="text" name="subject" placeholder="Subject" />
+                    </div>
+                    <div class="12u$">
+                      <textarea name="message" placeholder="Message" rows="8"></textarea>
+                    </div>
+                    <div class="12u$">
+                      <input type="submit" value="Send Message" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+
+          </article>
+        {% endfor %}
+      </div>
+
+      <!-- Footer -->
+      <div id="footer">
+        <ul class="copyright">
+          <li>&copy; {{ site_title }}</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ theme_url }}/assets/js/jquery.min.js"></script>
+    <script src="{{ theme_url }}/assets/js/skel.min.js"></script>
+    <script src="{{ theme_url }}/assets/js/skel-viewport.min.js"></script>
+    <script src="{{ theme_url }}/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="{{ theme_url }}/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="{{ theme_url }}/assets/js/main.js"></script>
+
+  </body>
+
+</html>
