@@ -8,9 +8,10 @@ Port of HTML5 UP's [Astral][] theme for [PicoCMS][].
 To use this theme:
 
 1. Download the [Latest Release][] on GitHub.
-1. Extract `themes/astral` to your Pico `themes` folder.
-1. Extract `sample-content/index.md` to your `content` folder.
-1. Configure your website using the YAML options in `index.md`
+2. Extract `themes/astral` to your Pico `themes` folder.
+3. Extract `sample-content/index.md` to your `content` folder.
+4. Set your `theme` to `astral` in Pico's `config.yml`.
+5. Configure your website using the YAML options in `index.md`
 
 Other sample files, `contact.md` and `gallery.md`, are provided for your reference.  You may use them if you wish, or simply create your own.
 
