@@ -3,7 +3,7 @@
   Astral by HTML5 UP
   html5up.net | @ajlkn
   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-  Ported to PicoCMS by Simon McDougall (https://github.com/smcdougall/)
+  Ported to PicoCMS by Maya McDougall (https://github.com/mayamcdougall)
 -->
 <html>
 
@@ -94,7 +94,7 @@
               <section>
                 <div class="row">
                   {% for item in page.meta.gallery %}
-                  <div class="4u{% if loop.index is divisibleby(3) %}${% endif %} 12u$(mobile)">
+                  <div class="4u{% if loop.index is divisible by(3) %}${% endif %} 12u$(mobile)">
                     <a href="{{ item.url }}" class="image fit"><img src="{{ item.image }}" alt=""></a>
                   </div>
                   {% endfor %}

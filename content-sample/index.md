@@ -1,6 +1,6 @@
 ---
 description:  # Description under Heading.
-profile: assets/profile.jpg # Profile Picture for Home Page.
+profile: "%assets_url%/profile.jpg" # Profile Picture for Home Page.
 #og_image: assets/profile.png # Open Graph Image for Link Previews
 home:
   icon: home # Icon for Home Button.
