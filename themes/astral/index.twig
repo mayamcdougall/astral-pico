@@ -24,11 +24,11 @@
 
     {# User CSS & Fonts #}
     {% if pages.index.meta.css %}
-        <link rel="stylesheet" href="{{ base_url }}/{{ pages.index.meta.css }}" type="text/css">
+        <link rel="stylesheet" href="{{ pages.index.meta.css | url }}" type="text/css">
     {% endif %}
     {% if pages.index.meta.fonts %}
         {% for url in pages.index.meta.fonts %}
-            <link href='{{ url }}' rel='stylesheet' type='text/css'>
+            <link href='{{ url | url }}' rel='stylesheet' type='text/css'>
         {% endfor %}
     {% endif %}
 
@@ -37,7 +37,7 @@
     <meta property="og:description" content="{{ pages.index.meta.description }}">
     <meta property="og:url" content="{{ base_url }}">
     <meta property="og:type" content="website">
-    {% if pages.index.meta.og_image %}<meta property="og:image" content="{{ base_url }}/{{ pages.index.meta.og_image }}">{% endif %}
+    {% if pages.index.meta.og_image %}<meta property="og:image" content="{{ pages.index.meta.og_image | url }}">{% endif %}
 
   </head>
 
@@ -61,7 +61,7 @@
 
       <!-- Nav -->
       <nav id="nav">
-        <a href="#me" class="icon fa-{{ pages.index.meta.home.icon }} active"><span>{{ pages.index.meta.home.text }}</span></a>
+        <a href="#me" class="icon fa-{{ pages.index.meta.icon }} active"><span>{{ pages.index.meta.title }}</span></a>
         {% for page in pages %}
           {% if page.id not in ['index'] %}
               <a href="{% if page.meta.link %}{{ page.meta.link }}{% else %}#{{ page.id }}{% endif %}" class="icon fa-{{ page.meta.icon }}"><span>{{ page.title }}</span></a>
@@ -86,8 +86,8 @@
             {% endfor %}
           </header>
           <a href="#{{ next_id }}" class="jumplink pic">
-            <span class="arrow icon fa-chevron-right"><span>{{ pages.index.meta.reader_arrow }}</span></span>
-            <img src="{{ pages.index.meta.profile }}" alt="" />
+            <span class="arrow icon fa-chevron-right"><span>{{ pages[next_id].meta.title }}</span></span>
+            <img src="{{ pages.index.meta.profile ?: theme_url ~ "/assets/profile.png" }}" alt="" />
           </a>
         </article>
 
@@ -106,7 +106,7 @@
                   <div class="row">
                     {% for item in page.meta.gallery %}
                     <div class="4u{% if loop.index is divisible by(3) %}${% endif %} 12u$(mobile)">
-                      <a href="{{ item.url }}" class="image fit"><img src="{{ item.image }}" alt=""></a>
+                      <a href="{{ item.url | url }}" class="image fit"><img src="{{ item.image | url }}" alt=""></a>
                     </div>
                     {% endfor %}
                   </div>
