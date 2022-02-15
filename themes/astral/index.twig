@@ -44,14 +44,16 @@
   <body>
 
     {# Show YAML Errors #}
-    {% for page in pages if page.meta.YAML_ParseError %}
-        <p style="
-            color: white;
-            text-align: center;
-            background-color: darkred;
-            margin-bottom: -25px;
-            text-transform: none;
-        ">Header Error in <a href="{{ page.url }}">{{ page.id }}</a>, {{ page.meta.YAML_ParseError }}</p>
+    {% for page in pages %}
+      {% if page.meta.YAML_ParseError %}
+          <p style="
+              color: white;
+              text-align: center;
+              background-color: darkred;
+              margin-bottom: -25px;
+              text-transform: none;
+          ">Header Error in <a href="{{ page.url }}">{{ page.id }}</a>, {{ page.meta.YAML_ParseError }}</p>
+      {% endif %}
     {% endfor %}
 
     <!-- Wrapper-->
@@ -60,8 +62,10 @@
       <!-- Nav -->
       <nav id="nav">
         <a href="#me" class="icon fa-{{ pages.index.meta.home.icon }} active"><span>{{ pages.index.meta.home.text }}</span></a>
-        {% for page in pages if page.id not in ['index'] %}
-            <a href="{% if page.meta.link %}{{ page.meta.link }}{% else %}#{{ page.id }}{% endif %}" class="icon fa-{{ page.meta.icon }}"><span>{{ page.title }}</span></a>
+        {% for page in pages %}
+          {% if page.id not in ['index'] %}
+              <a href="{% if page.meta.link %}{{ page.meta.link }}{% else %}#{{ page.id }}{% endif %}" class="icon fa-{{ page.meta.icon }}"><span>{{ page.title }}</span></a>
+          {% endif %}
         {% endfor %}
       </nav>
 
@@ -73,7 +77,13 @@
           <header>
             <h1>{{ site_title }}</h1>
             <p>{{ pages.index.meta.description }}</p>
-            {% set next_id = '' %}{% for page in pages if page.id not in ['index'] and not break %}{% set next_id = page.id %}{% set break = true %}{% endfor %}
+            {% set next_id = '' %}
+            {% for page in pages %}
+              {% if page.id not in ['index'] and not break %}
+                {% set next_id = page.id %}
+                {% set break = true %}
+              {% endif %}
+            {% endfor %}
           </header>
           <a href="#{{ next_id }}" class="jumplink pic">
             <span class="arrow icon fa-chevron-right"><span>{{ pages.index.meta.reader_arrow }}</span></span>
@@ -82,52 +92,54 @@
         </article>
 
         <!-- Pages -->
-        {% for page in pages if page.id not in ['index'] and not page.meta.link %}
-          <article id="{{ page.id }}" class="panel">
-            <header>
-              <h2>{{ page.title }}</h2>
-            </header>
-            {{ page.id | content }}
+        {% for page in pages %}
+          {% if page.id not in ['index'] and not page.meta.link %}
+            <article id="{{ page.id }}" class="panel">
+              <header>
+                <h2>{{ page.title }}</h2>
+              </header>
+              {{ page.id | content }}
 
-            <!-- Gallery -->
-            {% if page.meta.gallery %}
-              <section>
-                <div class="row">
-                  {% for item in page.meta.gallery %}
-                  <div class="4u{% if loop.index is divisible by(3) %}${% endif %} 12u$(mobile)">
-                    <a href="{{ item.url }}" class="image fit"><img src="{{ item.image }}" alt=""></a>
-                  </div>
-                  {% endfor %}
-                </div>
-              </section>
-            {% endif %}
-
-            <!-- Contact -->
-            {% if page.meta.contact %}
-              <form action="{{ page.meta.contact }}" method="post">
-                <div>
+              <!-- Gallery -->
+              {% if page.meta.gallery %}
+                <section>
                   <div class="row">
-                    <div class="6u 12u$(mobile)">
-                      <input type="text" name="name" placeholder="Name" />
+                    {% for item in page.meta.gallery %}
+                    <div class="4u{% if loop.index is divisible by(3) %}${% endif %} 12u$(mobile)">
+                      <a href="{{ item.url }}" class="image fit"><img src="{{ item.image }}" alt=""></a>
                     </div>
-                    <div class="6u$ 12u$(mobile)">
-                      <input type="text" name="email" placeholder="Email" />
-                    </div>
-                    <div class="12u$">
-                      <input type="text" name="subject" placeholder="Subject" />
-                    </div>
-                    <div class="12u$">
-                      <textarea name="message" placeholder="Message" rows="8"></textarea>
-                    </div>
-                    <div class="12u$">
-                      <input type="submit" value="Send Message" />
+                    {% endfor %}
+                  </div>
+                </section>
+              {% endif %}
+
+              <!-- Contact -->
+              {% if page.meta.contact %}
+                <form action="{{ page.meta.contact }}" method="post">
+                  <div>
+                    <div class="row">
+                      <div class="6u 12u$(mobile)">
+                        <input type="text" name="name" placeholder="Name" />
+                      </div>
+                      <div class="6u$ 12u$(mobile)">
+                        <input type="text" name="email" placeholder="Email" />
+                      </div>
+                      <div class="12u$">
+                        <input type="text" name="subject" placeholder="Subject" />
+                      </div>
+                      <div class="12u$">
+                        <textarea name="message" placeholder="Message" rows="8"></textarea>
+                      </div>
+                      <div class="12u$">
+                        <input type="submit" value="Send Message" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
-            {% endif %}
+                </form>
+              {% endif %}
 
-          </article>
+            </article>
+          {% endif %}
         {% endfor %}
       </div>
 
