@@ -1,4 +1,4 @@
-api_version: 4                  # Use Pico's latest API version for themes
+api_version: 3                  # Use Pico's latest API version for themes
 
 meta:
   Icon: icon
