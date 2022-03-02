@@ -44,7 +44,7 @@
   <body>
 
     {# Show YAML Errors #}
-    {% for page in pages %}
+    {% for page in pages(depthOffset=-1, depth=null) %}
       {% if page.meta.YAML_ParseError %}
           <p style="
               color: white;
@@ -62,8 +62,8 @@
       <!-- Nav -->
       <nav id="nav">
         <a href="#me" class="icon fa-{{ pages.index.meta.icon }} active"><span>{{ pages.index.meta.title }}</span></a>
-        {% for page in pages %}
-          {% if page.id not in ['index'] %}
+        {% for page in pages() %}
+          {% if not page.hidden %}
               <a href="{% if page.meta.link %}{{ page.meta.link }}{% else %}#{{ page.id }}{% endif %}" class="icon fa-{{ page.meta.icon }}"><span>{{ page.title }}</span></a>
           {% endif %}
         {% endfor %}
@@ -78,8 +78,8 @@
             <h1>{{ site_title }}</h1>
             <p>{{ pages.index.meta.description }}</p>
             {% set next_id = '' %}
-            {% for page in pages %}
-              {% if page.id not in ['index'] and not break %}
+            {% for page in pages() %}
+              {% if not page.hidden and not break %}
                 {% set next_id = page.id %}
                 {% set break = true %}
               {% endif %}
@@ -92,8 +92,8 @@
         </article>
 
         <!-- Pages -->
-        {% for page in pages %}
-          {% if page.id not in ['index'] and not page.meta.link %}
+        {% for page in pages() %}
+          {% if not page.hidden and not page.meta.link %}
             <article id="{{ page.id }}" class="panel">
               <header>
                 <h2>{{ page.title }}</h2>
